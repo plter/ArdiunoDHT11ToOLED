@@ -65,16 +65,23 @@ static const unsigned char PROGMEM c4[] = {0b00001000,0b00000000,0b00011000,0b00
 
 
 void showSplashScreen(){
-  display.clearDisplay();
+  
   int offset = 32;
-  display.drawBitmap(offset+0,0,c1,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.drawBitmap(offset+16,0,c2,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.drawBitmap(offset+32,0,c3,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.drawBitmap(offset+48,0,c4,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(16,20);
-  display.print("https://yunp.top");
-  display.display();
+  int offsetY = 0;
+  for(offsetY=32;offsetY>-32;offsetY--){
+    display.clearDisplay();
+    display.drawBitmap(offset+0,offsetY,c1,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.drawBitmap(offset+16,offsetY,c2,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.drawBitmap(offset+32,offsetY,c3,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.drawBitmap(offset+48,offsetY,c4,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(16,offsetY+20);
+    display.print("https://yunp.top");
+    display.display();
+    if(offsetY==0){
+      delay(2000);
+    }
+  }
 }
 
 void setup() {
@@ -82,7 +89,6 @@ void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
 
   showSplashScreen();
-  delay(2000);
 }
 
 void loop() {
