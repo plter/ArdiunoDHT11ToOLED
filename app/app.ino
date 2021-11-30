@@ -111,12 +111,12 @@ void loop() {
   
   display.drawBitmap(0,0,wen_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
   display.drawBitmap(16,0,du_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.setCursor(32, 0);
+  display.setCursor(32, 1);
   display.print(t);
   display.drawBitmap(display.getCursorX(),0,degree_celsius_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
   display.drawBitmap(0,16,shi_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
   display.drawBitmap(16,16,du_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.setCursor(32, 16);
+  display.setCursor(32, 17);
   display.print(h);
   display.print("%");
   display.display();
