@@ -36,7 +36,7 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
 #define CHAR_WIDTH 16
 #define CHAR_HEIGHT 16
@@ -82,9 +82,15 @@ void showSplashScreen(){
       delay(2000);
     }
   }
+
+  display.clearDisplay();
+  display.setCursor(0,0);
+  display.print("Please wait...");
+  display.display();
 }
 
 void setup() {
+  pinMode(DHTPIN,INPUT);
   dht.begin();
   display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
 
@@ -100,25 +106,27 @@ void loop() {
   // Read temperature as Fahrenheit (isFahrenheit = true)
   float f = dht.readTemperature(true);
 
-  // Compute heat index in Fahrenheit (the default)
-  float hif = dht.computeHeatIndex(f, h);
-  // Compute heat index in Celsius (isFahreheit = false)
-  float hic = dht.computeHeatIndex(t, h, false);
-
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setTextColor(SSD1306_WHITE);
+  if(h>0&&t>0){
+    // Compute heat index in Fahrenheit (the default)
+    float hif = dht.computeHeatIndex(f, h);
+    // Compute heat index in Celsius (isFahreheit = false)
+    float hic = dht.computeHeatIndex(t, h, false);
   
-  display.drawBitmap(0,0,wen_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.drawBitmap(16,0,du_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.setCursor(32, 1);
-  display.print(t);
-  display.drawBitmap(display.getCursorX(),0,degree_celsius_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.drawBitmap(0,16,shi_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.drawBitmap(16,16,du_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
-  display.setCursor(32, 17);
-  display.print(h);
-  display.print("%");
-  display.display();
-  delay(1000);
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(SSD1306_WHITE);
+    
+    display.drawBitmap(0,0,wen_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.drawBitmap(16,0,du_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.setCursor(32, 1);
+    display.print(t);
+    display.drawBitmap(display.getCursorX(),0,degree_celsius_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.drawBitmap(0,16,shi_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.drawBitmap(16,16,du_cn_bmp,CHAR_WIDTH,CHAR_HEIGHT,1);
+    display.setCursor(32, 17);
+    display.print(h);
+    display.print("%");
+    display.display();
+  }
+  delay(2000);
 }
